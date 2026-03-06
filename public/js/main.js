@@ -315,14 +315,21 @@
     document.querySelectorAll('#nav-menu a').forEach((link) => {
       link.addEventListener('click', () => {
         const nav = qs('nav-menu');
+        const toggle = qs('menu-toggle');
         if (nav) nav.classList.remove('open');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
       });
     });
+
+    const menuToggle = qs('menu-toggle');
+    if (menuToggle) {
+      menuToggle.addEventListener('click', window.toggleMenu);
+    }
   });
 
   window.addEventListener('scroll', () => {
     const nav = qs('main-nav');
-    if (nav) nav.style.height = window.scrollY > 50 ? '60px' : '70px';
+    if (nav) nav.style.height = window.scrollY > 50 ? '64px' : '78px';
     const bar = qs('progress-bar');
     if (!bar) return;
     const winH = document.documentElement.scrollHeight - window.innerHeight;
