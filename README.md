@@ -1,4 +1,4 @@
-# JMD Maçonnerie - Bâtissons ensemble vos projets - Site Node.js multi-pages
+# JMD - Site Node.js multi-pages
 
 Application **Node.js + Express + EJS** multi-pages, maintenable et portable sur tout hébergeur Node.
 
