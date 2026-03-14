@@ -187,31 +187,48 @@
     iframe.allowFullscreen = true;
     iframe.loading = 'lazy';
     iframe.referrerPolicy = 'no-referrer-when-downgrade';
-    iframe.title = "Zone d'intervention JMD Maçonnerie";
+    iframe.title = "Zone d'intervention JMD Maçonnerie - Bâtissons ensemble vos projets";
     wrap.appendChild(iframe);
   }
 
   window.submitForm = function submitForm() {
-    const name = (qs('f-name')?.value || '').trim();
-    const tel = (qs('f-tel')?.value || '').trim();
-    const email = (qs('f-email')?.value || '').trim();
-    const type = (qs('f-type')?.value || '').trim();
-    const msg = (qs('f-msg')?.value || '').trim();
+    const nameEl = qs('f-name');
+    const telEl = qs('f-tel');
+    const emailEl = qs('f-email');
+    const typeEl = qs('f-type');
+    const msgEl = qs('f-msg');
+
+    const name = nameEl ? String(nameEl.value || '').trim() : '';
+    const tel = telEl ? String(telEl.value || '').trim() : '';
+    const email = emailEl ? String(emailEl.value || '').trim() : '';
+    const type = typeEl ? String(typeEl.value || '').trim() : '';
+    const msg = msgEl ? String(msgEl.value || '').trim() : '';
 
     if (!name || !tel || !msg) {
       alert('Merci de renseigner au minimum votre nom, téléphone et message.');
       return;
     }
 
-    const subject = encodeURIComponent('Demande de devis - JMD Maçonnerie');
+    const subject = encodeURIComponent('Demande de devis - JMD Maçonnerie - Bâtissons ensemble vos projets');
     const body = encodeURIComponent(`Nom: ${name}\nTéléphone: ${tel}\nE-mail: ${email || '-'}\nType de travaux: ${type || '-'}\n\nProjet:\n${msg}`);
-    window.location.href = `mailto:jeanmicheldouay2711@gmail.com?subject=${subject}&body=${body}`;
-
+    const mailtoUrl = `mailto:jeanmicheldouay2711@gmail.com?subject=${subject}&body=${body}`;
     const success = qs('form-success');
+    const fallback = qs('form-fallback');
     if (success) {
       success.style.display = 'block';
       success.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+    if (fallback) fallback.style.display = 'none';
+
+    // Tentative d'ouverture du client e-mail local.
+    window.location.href = mailtoUrl;
+
+    // Si rien ne s'ouvre (pas de client mail configuré), afficher une alternative claire.
+    window.setTimeout(() => {
+      if (fallback) {
+        fallback.style.display = 'block';
+      }
+    }, 1200);
   };
 
   function initHeroCarousel() {
